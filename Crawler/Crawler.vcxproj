@@ -75,9 +75,15 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Downloader.cpp" />
+    <ClCompile Include="Globals.cpp" />
+    <ClCompile Include="HTMLParser.cpp" />
+    <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Downloader.hpp" />
+    <ClInclude Include="Globals.hpp" />
+    <ClInclude Include="HTMLParser.hpp" />
   </ItemGroup>
   <ItemDefinitionGroup />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
