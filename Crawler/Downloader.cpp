@@ -28,31 +28,30 @@ void Downloader::getPage(string url)
 	{
 		cout << "url: " << url << std::endl;
 		mp[url] = true;
-		if (validateUrl(url))
+		if (!storage->validateDir("temp"))
+			storage->createDir("temp", "");
+
+		system(string("wget -q -O " + storage->getFilePath("temp", "temp") + " " + url).c_str());
+
+		string data = storage->readFile("temp", "temp");
+		parser.getLinks(data);
+
+		while (!parser.links.empty())
 		{
-			if (!storage->validateDir("temp"))
-				storage->createDir("temp", "");
 
-			system(string("wget -q -O " + storage->getFilePath("temp", "temp") + " " + url).c_str());
-
-			string data = storage->readFile("temp", "temp");
-			parser.getLinks(data);
-
-			while (!parser.links.empty())
-			{
-				if (!mp[parser.links.front()])
-					downloadQue.push_back(parser.links.front());
-				parser.links.pop_front();
-			}
-
-			storage->storeFile("", "file" + std::to_string(count), data);
-			cout << "created file : " << "file"<<count<<std::endl;
-			count++;
+			if (!mp[parser.links.front()] && validateUrl(parser.links.front()))
+				downloadQue.push_back(parser.links.front());
+			parser.links.pop_front();
 		}
+
+		storage->storeFile("", "file" + std::to_string(count), data);
+		cout << "created file : " << "file"<<count<<std::endl;
+		count++;
 	}
 	//recursive call
+	cout << downloadQue.size()<<std::endl;
+	downloadQue.pop_front();
 	if (!downloadQue.empty()) {
-		downloadQue.pop_front();
 		getPage(downloadQue.front());
 	}
 	else
