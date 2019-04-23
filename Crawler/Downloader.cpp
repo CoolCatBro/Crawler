@@ -4,6 +4,9 @@
 Downloader::Downloader(Storage* storage)
 					:storage(storage), count(1)
 {
+	validLinks = 0;
+	depth = 0;
+	timeToDepthIncrease = 0;
 }
 
 bool Downloader::validateUrl(string url)
@@ -40,8 +43,19 @@ void Downloader::getPage(string url)
 		{
 
 			if (!mp[parser.links.front()] && validateUrl(parser.links.front()))
+			{
+				validLinks++;
 				downloadQue.push_back(parser.links.front());
+			}
+
 			parser.links.pop_front();
+		}
+
+		if (!timeToDepthIncrease)
+		{
+			timeToDepthIncrease = validLinks;
+			validLinks = 0;
+			depth++;
 		}
 
 		storage->storeFile("", "file" + std::to_string(count), data);
@@ -49,8 +63,12 @@ void Downloader::getPage(string url)
 		count++;
 	}
 	//recursive call
-	cout << downloadQue.size()<<std::endl;
+
 	downloadQue.pop_front();
+	timeToDepthIncrease--;
+
+	cout << "Depth is : " << depth << std::endl;
+
 	if (!downloadQue.empty()) {
 		getPage(downloadQue.front());
 	}

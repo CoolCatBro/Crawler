@@ -24,3 +24,4 @@
 using std::string;
 
 extern  string SEED_URL;
+extern int MAX_DEPTH;

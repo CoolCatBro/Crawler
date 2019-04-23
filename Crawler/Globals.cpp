@@ -3,4 +3,4 @@
 //VARIABLES DEFINATION
 
 string SEED_URL = "https://www.chitkara.edu.in";
-//string SEED_URL = "https://github.com/CoolCatBro";
+int MAX_DEPTH = 100;

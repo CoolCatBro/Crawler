@@ -21,7 +21,13 @@ class Downloader
 	
 	deque<string> downloadQue;
 	map<string, bool> mp;
+
+
 	int count;
+	int validLinks;
+
+	int depth;
+	int timeToDepthIncrease;
 
 public:
 
